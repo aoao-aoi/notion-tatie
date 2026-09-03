@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+　<meta name="robots" content="noindex, nofollow">
+  <title>探索者ギャラリー</title>
+
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+
+      background: transparent;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      color: #222;
+    }
+
+
+    /* =========================
+       共通
+    ========================= */
+
+    button {
+      font-family: inherit;
+    }
+
+
+    /* =========================
+       管理画面
+    ========================= */
+
+    .manager {
+      width: 100%;
+      max-width: 720px;
+
+      margin: 0 auto;
+    }
+
+    .manager-title {
+      margin: 0 0 8px;
+
+      font-size: 24px;
+    }
+
+    .manager-text {
+      margin: 0 0 24px;
+
+      font-size: 14px;
+      color: #777;
+    }
+
+    .character-list {
+      display: flex;
+      flex-direction: column;
+
+      gap: 12px;
+    }
+
+    .character-card {
+      padding: 18px;
+
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .character-id {
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .character-tabs {
+      margin-bottom: 14px;
+
+      font-size: 13px;
+      color: #888;
+    }
+
+    .character-buttons {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 8px;
+    }
+
+    .manager-button {
+      padding: 8px 14px;
+
+      border: 1px solid #d8d8d8;
+      border-radius: 8px;
+
+      background: white;
+
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .manager-button:hover {
+      background: #f5f5f5;
+    }
+
+
+    /* =========================
+       ギャラリー
+    ========================= */
+
+    .gallery {
+      width: 100%;
+      max-width: 900px;
+
+      margin: 0 auto;
+
+      text-align: center;
+    }
+
+
+    /* =========================
+       画像表示部分
+    ========================= */
+
+    .viewer {
+      position: relative;
+
+      width: 100%;
+      height: 650px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+    }
+
+    .viewer img {
+      display: none;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      width: auto;
+      height: auto;
+
+      object-fit: contain;
+    }
+
+    .viewer img.active {
+      display: block;
+    }
+
+
+    /* =========================
+       左右ボタン
+    ========================= */
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 48px;
+      height: 48px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: rgba(120, 120, 120, 0.35);
+
+      font-size: 34px;
+      line-height: 1;
+
+      cursor: pointer;
+
+      z-index: 10;
+    }
+
+    .arrow:hover {
+      background: rgba(120, 120, 120, 0.55);
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+
+    /* =========================
+       ドット
+    ========================= */
+
+    .dots {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: #c7c7c7;
+
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #555;
+    }
+
+
+    /* =========================
+       タブ
+    ========================= */
+
+    .labels {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 22px;
+
+      margin-top: 14px;
+      padding-bottom: 10px;
+    }
+
+    .label {
+      font-size: 14px;
+
+      color: #999;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .label:hover {
+      color: #555;
+    }
+
+    .label.active {
+      color: #222;
+      font-weight: 600;
+    }
+
+/* =========================
+   管理画面ログイン
+========================= */
+
+.login-box {
+  width: 100%;
+  max-width: 360px;
+  margin: 120px auto;
+  padding: 28px;
+
+  text-align: center;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.login-title {
+  margin: 0 0 20px;
+
+  font-size: 20px;
+}
+
+.login-input {
+  width: 100%;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+
+  font-size: 16px;
+  text-align: center;
+}
+
+.login-button {
+  width: 100%;
+
+  margin-top: 10px;
+  padding: 10px;
+
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+
+  background: white;
+
+  cursor: pointer;
+}
+
+.login-error {
+  min-height: 20px;
+
+  margin-top: 10px;
+
+  font-size: 13px;
+  color: #888;
+}
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <div id="app"></div>
+
+
+  <!-- 探索者データ -->
+  <script src="data.js"></script>
+
+
+  <script>
+
+    const app =
+      document.getElementById("app");
+
+    const params =
+      new URLSearchParams(window.location.search);
+
+    const characterId =
+      params.get("id");
+
+
+    /* ========================================
+       IDがない場合
+       → 管理画面を表示
+    ======================================== */
+
+   if (!characterId) {
+
+  showManagerLogin();
+
+}
+
+
+    /* ========================================
+       IDがある場合
+       → ギャラリーを表示
+    ======================================== */
+
+    else {
+
+      showGallery(characterId);
+
+    }
+
+
+    /* ========================================
+       管理画面
+    ======================================== */
+function showManagerLogin() {
+
+  app.innerHTML = `
+    <div class="login-box">
+
+      <h1 class="login-title">
+        🔒 ギャラリー管理
+      </h1>
+
+      <input
+        type="password"
+        id="managerPassword"
+        class="login-input"
+        placeholder="パスワード"
+      >
+
+      <button
+        id="loginButton"
+        class="login-button"
+      >
+        開く
+      </button>
+
+      <div
+        id="loginError"
+        class="login-error"
+      ></div>
+
+    </div>
+  `;
+
+
+  const input =
+    document.getElementById("managerPassword");
+
+  const button =
+    document.getElementById("loginButton");
+
+  const error =
+    document.getElementById("loginError");
+
+
+  function login() {
+
+    if (input.value === "2027") {
+
+      app.innerHTML = "";
+
+      showManager();
+
+    }
+
+    else {
+
+      error.textContent =
+        "パスワードが違います。";
+
+      input.value = "";
+
+      input.focus();
+
+    }
+
+  }
+
+
+  button.addEventListener(
+    "click",
+    login
+  );
+
+
+  input.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (event.key === "Enter") {
+
+        login();
+
+      }
+
+    }
+  );
+
+
+  input.focus();
+
+}
+    function showManager() {
+
+      const manager =
+        document.createElement("div");
+
+      manager.className =
+        "manager";
+
+
+      const title =
+        document.createElement("h1");
+
+      title.className =
+        "manager-title";
+
+      title.textContent =
+        "探索者ギャラリー管理";
+
+
+      const text =
+        document.createElement("p");
+
+      text.className =
+        "manager-text";
+
+      text.textContent =
+        "data.js に登録されている探索者を自動で表示しています。";
+
+
+      const list =
+        document.createElement("div");
+
+      list.className =
+        "character-list";
+
+
+      Object.entries(galleries).forEach(
+        ([id, galleryData]) => {
+
+          const card =
+            document.createElement("div");
+
+          card.className =
+            "character-card";
+
+
+          const idText =
+            document.createElement("div");
+
+          idText.className =
+            "character-id";
+
+          idText.textContent =
+            id;
+
+
+          const tabs =
+            document.createElement("div");
+
+          tabs.className =
+            "character-tabs";
+
+          tabs.textContent =
+            Object.keys(galleryData).join(" / ");
+
+
+          const buttons =
+            document.createElement("div");
+
+          buttons.className =
+            "character-buttons";
+
+
+          /* ギャラリーを開く */
+
+          const openButton =
+            document.createElement("button");
+
+          openButton.className =
+            "manager-button";
+
+          openButton.textContent =
+            "ギャラリーを開く";
+
+          openButton.addEventListener(
+            "click",
+            () => {
+
+              const url =
+                new URL(window.location.href);
+
+              url.searchParams.set(
+                "id",
+                id
+              );
+
+              window.location.href =
+                url.toString();
+
+            }
+          );
+
+
+          /* URLコピー */
+
+          const copyButton =
+            document.createElement("button");
+
+          copyButton.className =
+            "manager-button";
+
+          copyButton.textContent =
+            "URLをコピー";
+
+          copyButton.addEventListener(
+            "click",
+            async () => {
+
+              const url =
+                new URL(window.location.href);
+
+              url.searchParams.set(
+                "id",
+                id
+              );
+
+              try {
+
+                await navigator.clipboard.writeText(
+                  url.toString()
+                );
+
+                copyButton.textContent =
+                  "コピーしました！";
+
+                setTimeout(
+                  () => {
+
+                    copyButton.textContent =
+                      "URLをコピー";
+
+                  },
+                  1500
+                );
+
+              }
+
+              catch (error) {
+
+                alert(
+                  "URLをコピーできませんでした。"
+                );
+
+              }
+
+            }
+          );
+
+
+          buttons.appendChild(
+            openButton
+          );
+
+          buttons.appendChild(
+            copyButton
+          );
+
+
+          card.appendChild(
+            idText
+          );
+
+          card.appendChild(
+            tabs
+          );
+
+          card.appendChild(
+            buttons
+          );
+
+
+          list.appendChild(
+            card
+          );
+
+        }
+      );
+
+
+      manager.appendChild(
+        title
+      );
+
+      manager.appendChild(
+        text
+      );
+
+      manager.appendChild(
+        list
+      );
+
+
+      app.appendChild(
+        manager
+      );
+
+    }
+
+
+    /* ========================================
+       ギャラリー
+    ======================================== */
+
+    function showGallery(id) {
+
+      const galleryData =
+        galleries[id];
+
+
+      if (!galleryData) {
+
+        app.innerHTML =
+          "<p style='text-align:center;'>ギャラリーが見つかりません。</p>";
+
+        return;
+
+      }
+
+
+      /* ギャラリー本体 */
+
+      const gallery =
+        document.createElement("div");
+
+      gallery.className =
+        "gallery";
+
+
+      const viewer =
+        document.createElement("div");
+
+      viewer.className =
+        "viewer";
+
+
+      const prevButton =
+        document.createElement("button");
+
+      prevButton.className =
+        "arrow prev";
+
+      prevButton.textContent =
+        "‹";
+
+
+      const nextButton =
+        document.createElement("button");
+
+      nextButton.className =
+        "arrow next";
+
+      nextButton.textContent =
+        "›";
+
+
+      viewer.appendChild(
+        prevButton
+      );
+
+      viewer.appendChild(
+        nextButton
+      );
+
+
+      const dotsContainer =
+        document.createElement("div");
+
+      dotsContainer.className =
+        "dots";
+
+
+      const labelsContainer =
+        document.createElement("div");
+
+      labelsContainer.className =
+        "labels";
+
+
+      gallery.appendChild(
+        viewer
+      );
+
+      gallery.appendChild(
+        dotsContainer
+      );
+
+      gallery.appendChild(
+        labelsContainer
+      );
+
+
+      app.appendChild(
+        gallery
+      );
+
+
+      /* ========================================
+         画像一覧を自動生成
+      ======================================== */
+
+      const slides = [];
+
+
+      Object.entries(galleryData).forEach(
+        ([labelName, count]) => {
+
+          for (let i = 1; i <= count; i++) {
+
+            const number =
+              String(i).padStart(
+                2,
+                "0"
+              );
+
+            slides.push({
+
+              fileName:
+                `${labelName}_${number}.png`,
+
+              labelName:
+                labelName
+
+            });
+
+          }
+
+        }
+      );
+
+
+      /* ========================================
+         画像とドット
+      ======================================== */
+
+      slides.forEach(
+        (item, index) => {
+
+          const img =
+            document.createElement("img");
+
+          img.src =
+            `images/${id}/${item.fileName}`;
+
+
+          viewer.insertBefore(
+            img,
+            nextButton
+          );
+
+
+          const dot =
+            document.createElement("span");
+
+          dot.className =
+            "dot";
+
+
+          dot.addEventListener(
+            "click",
+            () => {
+
+              showSlide(index);
+
+            }
+          );
+
+
+          dotsContainer.appendChild(
+            dot
+          );
+
+        }
+      );
+
+
+      /* ========================================
+         タブ
+      ======================================== */
+
+      Object.keys(galleryData).forEach(
+        (labelName) => {
+
+          const label =
+            document.createElement("span");
+
+          label.className =
+            "label";
+
+          label.textContent =
+            labelName;
+
+
+          label.addEventListener(
+            "click",
+            () => {
+
+              const firstIndex =
+                slides.findIndex(
+                  item =>
+                    item.labelName === labelName
+                );
+
+              showSlide(
+                firstIndex
+              );
+
+            }
+          );
+
+
+          labelsContainer.appendChild(
+            label
+          );
+
+        }
+      );
+
+
+      const images =
+        viewer.querySelectorAll("img");
+
+      const dots =
+        dotsContainer.querySelectorAll(".dot");
+
+      const labels =
+        labelsContainer.querySelectorAll(".label");
+
+
+      let current = 0;
+
+
+      /* ========================================
+         画像切り替え
+      ======================================== */
+
+      function showSlide(index) {
+
+        if (
+          images.length === 0
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          index >= images.length
+        ) {
+
+          index = 0;
+
+        }
+
+
+        if (
+          index < 0
+        ) {
+
+          index =
+            images.length - 1;
+
+        }
+
+
+        images.forEach(
+          img => {
+
+            img.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        dots.forEach(
+          dot => {
+
+            dot.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        labels.forEach(
+          label => {
+
+            label.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        current =
+          index;
+
+
+        images[current].classList.add(
+          "active"
+        );
+
+
+        dots[current].classList.add(
+          "active"
+        );
+
+
+        const currentLabel =
+          slides[current].labelName;
+
+
+        labels.forEach(
+          label => {
+
+            if (
+              label.textContent === currentLabel
+            ) {
+
+              label.classList.add(
+                "active"
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+
+      /* ========================================
+         左右ボタン
+      ======================================== */
+
+      prevButton.addEventListener(
+        "click",
+        () => {
+
+          showSlide(
+            current - 1
+          );
+
+        }
+      );
+
+
+      nextButton.addEventListener(
+        "click",
+        () => {
+
+          showSlide(
+            current + 1
+          );
+
+        }
+      );
+
+
+      /* 最初の画像 */
+
+      if (
+        slides.length > 0
+      ) {
+
+        showSlide(0);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>
