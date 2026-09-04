@@ -16,20 +16,21 @@
     }
 
     body {
-      margin: 0;
-      padding: 24px;
+  margin: 0;
+  padding: 8px;
+  overflow: hidden;
 
-      background: transparent;
+  background: transparent;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Helvetica Neue",
-        Arial,
-        sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 
-      color: #222;
-    }
+  color: #222;
+}
 
 
     /* =========================
@@ -124,33 +125,38 @@
        ギャラリー
     ========================= */
 
-    .gallery {
-      width: 100%;
-      max-width: 900px;
+   .gallery {
+  width: 100%;
+  max-width: 900px;
 
-      margin: 0 auto;
+  height: 100dvh;
 
-      text-align: center;
-    }
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+}
 
 
     /* =========================
        画像表示部分
     ========================= */
 
-    .viewer {
-      position: relative;
+   .viewer {
+  position: relative;
 
-      width: 100%;
+  width: 100%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      overflow: hidden;
-    }
+  overflow: hidden;
+}
 
-    .viewer img {
+.viewer img {
   display: none;
 
   max-width: 100%;
@@ -212,7 +218,7 @@
 
     .dots {
       display: flex;
-
+　　　　flex-shrink: 0;
       justify-content: center;
       align-items: center;
 
@@ -243,7 +249,7 @@
 
     .labels {
       display: flex;
-
+　　　　flex-shrink: 0;
       justify-content: center;
       align-items: center;
 
