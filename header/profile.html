@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>探索者ヘッダー</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 5px;
+      background: transparent;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Sans",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      color: #37352f;
+    }
+
+
+    /* ========================================
+       全体
+    ======================================== */
+
+    .header-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+
+    /* ========================================
+       後ろのテーマカラー
+       → ほんの少しだけ見える
+    ======================================== */
+
+    .header-shadow {
+      position: absolute;
+
+      top: 2px;
+      left: 2px;
+
+      width: 100%;
+      height: 100%;
+
+      opacity: 0.40;
+
+      z-index: 0;
+    }
+
+
+    /* ========================================
+       白い本体
+    ======================================== */
+
+    .profile-header {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: stretch;
+
+      width: 100%;
+      height: 88px;
+
+      background: #ffffff;
+
+      border: 1px solid #e3e2e0;
+
+      overflow: hidden;
+    }
+
+
+    /* ========================================
+       アイコン
+    ======================================== */
+
+    .icon-area {
+      position: relative;
+
+      flex-shrink: 0;
+
+      width: 88px;
+      height: 88px;
+
+      background: #ffffff;
+
+      overflow: hidden;
+    }
+
+
+    .icon {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+
+    /* アイコン右の細いテーマカラー線 */
+
+    .icon-line {
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 1px;
+      height: 100%;
+
+      opacity: 0.65;
+    }
+
+
+    /* ========================================
+       No.
+    ======================================== */
+
+    .number-area {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      flex-shrink: 0;
+
+      width: 112px;
+
+      padding-left: 22px;
+    }
+
+
+    /* 三角 */
+
+    .arrow {
+      position: absolute;
+
+      left: 11px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      font-size: 16px;
+
+      color: #9b9a97;
+    }
+
+
+    .number-content {
+      margin-left: 18px;
+    }
+
+
+    .number-label {
+      margin-bottom: -2px;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: 0.04em;
+
+      color: #787774;
+    }
+
+
+    .number {
+      font-size: 32px;
+      font-weight: 750;
+
+      line-height: 1;
+
+      letter-spacing: -0.04em;
+
+      color: #a3a3a0;
+    }
+
+
+    /* ========================================
+       名前
+    ======================================== */
+
+    .logo-area {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      flex: 1;
+
+      min-width: 0;
+
+      padding-left: 23px;
+
+      overflow: hidden;
+    }
+
+
+    /* 背景の巨大英字 */
+
+    .background-name {
+      position: absolute;
+
+      left: 18px;
+      bottom: -10px;
+
+      font-size: 55px;
+      font-weight: 800;
+      font-style: italic;
+
+      letter-spacing: 0.07em;
+
+      white-space: nowrap;
+
+      opacity: 0.035;
+
+      pointer-events: none;
+      user-select: none;
+    }
+
+
+    .name-content {
+      position: relative;
+      z-index: 2;
+
+      min-width: 0;
+    }
+
+
+    /* 英字 */
+
+    .name-top {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 3px;
+    }
+
+
+    .name-en {
+      overflow: hidden;
+
+      font-size: 10px;
+      font-weight: 500;
+      font-style: italic;
+
+      letter-spacing: 0.17em;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      color: #787774;
+    }
+
+
+    /* 日本語名 */
+
+    .name-ja {
+      position: relative;
+
+      display: inline-block;
+
+      font-size: 28px;
+      font-weight: 750;
+
+      line-height: 1.15;
+
+      letter-spacing: 0.14em;
+
+      white-space: nowrap;
+    }
+
+
+    /* ========================================
+       右側装飾
+    ======================================== */
+
+    .side-decoration {
+      position: absolute;
+
+      right: 17px;
+      top: 50%;
+
+      display: flex;
+      align-items: center;
+
+      transform: translateY(-50%);
+
+      opacity: 0.55;
+    }
+
+
+    .side-line {
+      width: 45px;
+      height: 1px;
+
+      margin-right: 8px;
+
+      background: #c8c8c5;
+    }
+
+
+    .side-symbol {
+      font-size: 17px;
+
+      line-height: 1;
+    }
+
+
+    /* ========================================
+       右上アクセント
+    ======================================== */
+
+    .corner {
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width: 26px;
+      height: 4px;
+    }
+
+
+    /* ========================================
+       スマホ・狭い表示
+    ======================================== */
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 4px;
+      }
+
+
+      .profile-header {
+        height: 68px;
+      }
+
+
+      .header-shadow {
+        top: 2px;
+        left: 2px;
+      }
+
+
+      .icon-area {
+        width: 68px;
+        height: 68px;
+      }
+
+
+      .number-area {
+        width: 82px;
+
+        padding-left: 14px;
+      }
+
+
+      .arrow {
+        left: 7px;
+
+        font-size: 11px;
+      }
+
+
+      .number-content {
+        margin-left: 13px;
+      }
+
+
+      .number-label {
+        font-size: 7px;
+      }
+
+
+      .number {
+        font-size: 23px;
+      }
+
+
+      .logo-area {
+        padding-left: 13px;
+      }
+
+
+      .name-en {
+        font-size: 7px;
+
+        letter-spacing: 0.11em;
+      }
+
+
+      .name-ja {
+        font-size: 19px;
+
+        letter-spacing: 0.10em;
+      }
+
+
+      .background-name {
+        font-size: 38px;
+      }
+
+
+      .side-decoration {
+        display: none;
+      }
+
+    }
+
+
+    /* ========================================
+       かなり狭い表示
+    ======================================== */
+
+    @media (max-width: 380px) {
+
+      .profile-header {
+        height: 58px;
+      }
+
+
+      .icon-area {
+        width: 58px;
+        height: 58px;
+      }
+
+
+      .number-area {
+        width: 65px;
+      }
+
+
+      .number {
+        font-size: 19px;
+      }
+
+
+      .logo-area {
+        padding-left: 8px;
+      }
+
+
+      .name-en {
+        font-size: 6px;
+      }
+
+
+      .name-ja {
+        font-size: 15px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div id="app"></div>
+
+
+  <script src="profile-data.js"></script>
+
+
+  <script>
+
+    /* ========================================
+       URLから探索者ID取得
+    ======================================== */
+
+    const params =
+      new URLSearchParams(window.location.search);
+
+    const id =
+      params.get("id");
+
+    const data =
+      profiles[id];
+
+    const app =
+      document.getElementById("app");
+
+
+    /* ========================================
+       データがない場合
+    ======================================== */
+
+    if (!data) {
+
+      app.textContent =
+        "プロフィールが見つかりません。";
+
+    }
+
+
+    /* ========================================
+       データがある場合
+    ======================================== */
+
+    else {
+
+      const iconPath =
+        `../images/${id}/icon.png`;
+
+
+      /*
+        profile-data.js に
+
+        symbol: "♡"
+
+        と書けば探索者ごとに変更できます。
+
+        未指定の場合は♡。
+      */
+
+      const symbol =
+        data.symbol || "♡";
+
+
+      app.innerHTML = `
+
+        <div class="header-wrap">
+
+
+          <!-- 後ろのテーマカラー -->
+
+          <div
+            class="header-shadow"
+            style="background:${data.color};"
+          ></div>
+
+
+          <!-- 白い本体 -->
+
+          <div class="profile-header">
+
+
+            <!-- 右上アクセント -->
+
+            <div
+              class="corner"
+              style="background:${data.color};"
+            ></div>
+
+
+            <!-- ICON -->
+
+            <div class="icon-area">
+
+              <img
+                class="icon"
+                src="${iconPath}"
+                alt=""
+              >
+
+              <div
+                class="icon-line"
+                style="background:${data.color};"
+              ></div>
+
+            </div>
+
+
+            <!-- NUMBER -->
+
+            <div class="number-area">
+
+              <div class="arrow">
+                ▶
+              </div>
+
+
+              <div class="number-content">
+
+                <div class="number-label">
+                  No.
+                </div>
+
+                <div class="number">
+                  ${data.no}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="logo-area">
+
+
+              <!-- 背景の巨大英字 -->
+
+              <div
+                class="background-name"
+                style="color:${data.color};"
+              >
+                ${data.nameEn}
+              </div>
+
+
+              <!-- 名前本体 -->
+
+              <div class="name-content">
+
+
+                <div class="name-top">
+
+                  <div class="name-en">
+                    ${data.nameEn}
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="name-ja"
+                  style="color:${data.color};"
+                >
+                  ${data.nameJa}
+                </div>
+
+
+              </div>
+
+
+              <!-- 右側装飾 -->
+
+              <div class="side-decoration">
+
+                <div class="side-line"></div>
+
+                <div
+                  class="side-symbol"
+                  style="color:${data.color};"
+                >
+                  ${symbol}
+                </div>
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+  </script>
+
+</body>
+
+</html>
